@@ -1,5 +1,6 @@
 const express = require('express');
 const Wallet = require('../models/walletModel');
+const Transaction = require('../models/transactionModel');
 const router = express.Router();
 
 router.post('/setup', async function(req, res){
@@ -8,11 +9,20 @@ router.post('/setup', async function(req, res){
 
         const newWallet = new Wallet({balance, name});
         const savedWallet = await newWallet.save();
+        const newTransaction = new Transaction({
+            walletId: savedWallet._id,
+            amount: balance,
+            balance: balance,
+            description: 'Initial Deposit',
+            date: new Date(),
+            type: 'CREDIT'
+        })
+        const saveTrans= await newTransaction.save()
 
         const response ={
             id: savedWallet._id,
             balance: savedWallet.balance,
-            transactionId: '4456494616454',
+            transactionId: saveTrans._id,
             name: savedWallet.name,
             date: new Date()
         }
