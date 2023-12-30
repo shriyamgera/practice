@@ -1,6 +1,7 @@
 const express= require('express');
 const walletRoutes = require('./routes/walletRoutes.js')
 const Wallet = require('./models/walletModel.js');
+const Transaction = require('./models/transactionModel.js')
 const connectDB = require('./database.js')
 const app = express();
 
@@ -8,6 +9,7 @@ const app = express();
 connectDB()
 app.use(express.json());
 app.use('/wallet', walletRoutes)
+app.use('/', walletRoutes)
 
 // app.get('/', function(req, res){
 //     res.send("Hello, world!");
